@@ -6,6 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLHandshakeException;
 import javax.security.cert.CertificateException;
 import java.io.IOException;
 import java.net.URL;
@@ -35,9 +36,10 @@ public class SSLCertificateChecker extends CordovaPlugin {
               }
             }
             callbackContext.error("CONNECTION_NOT_SECURE");
-          } catch (Exception e) {
-            callbackContext.error("CONNECTION_NOT_SECURE");
-            //callbackContext.error("CONNECTION_FAILED. Details: " + e.getMessage());
+          } catch (SSLHandshakeException e) {
+              callbackContext.error("CONNECTION_NOT_SECURE");
+          } catch (Exception e){
+              callbackContext.error("CONNECTION_FAILED. Details: " + e.getMessage());
           }
         }
       });
